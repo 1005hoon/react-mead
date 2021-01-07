@@ -4,17 +4,24 @@ class IndecisionApp extends React.Component {
     this.removeAllOptions = this.removeAllOptions.bind(this);
     this.pickRandom = this.pickRandom.bind(this);
     this.addOption = this.addOption.bind(this);
+    this.deleteOption = this.deleteOption.bind(this);
     this.state = {
-      title: "Indecision App",
-      subtitle: "Put your life in the hands of computer",
-      options: [
-        "thing one",
-        "thing two",
-        "thing three",
-        "thing four",
-        "thing five",
-      ],
+      options: [],
     };
+  }
+  componentDidMount() {
+    const data = localStorage.getItem("options");
+    const options = JSON.parse(data);
+    if (options) {
+      this.setState({ options });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.options.length !== this.state.options.length) {
+      const data = JSON.stringify(this.state.options);
+      localStorage.setItem("options", data);
+    }
   }
 
   removeAllOptions() {
@@ -25,6 +32,13 @@ class IndecisionApp extends React.Component {
     const randomIndex = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomIndex];
     alert(option);
+  }
+
+  deleteOption(optionInd) {
+    const options = this.state.options.filter(
+      (option, index) => index !== optionInd
+    );
+    this.setState({ options });
   }
 
   addOption(option) {
@@ -42,67 +56,73 @@ class IndecisionApp extends React.Component {
     const { title, subtitle, options } = this.state;
     return (
       <div>
-        <Header title={title} subTitle={subtitle} />
+        <Header title={title} subtitle={subtitle} />
         <Action pickRandom={this.pickRandom} hasOptions={options.length > 0} />
-        <Options removeAll={this.removeAllOptions} options={options} />
+        <Options
+          removeAll={this.removeAllOptions}
+          deleteOption={this.deleteOption}
+          options={options}
+        />
         <AddOption addOption={this.addOption} />
       </div>
     );
   }
 }
+IndecisionApp.defaultProps = {
+  options: [],
+};
 
-class Header extends React.Component {
-  render() {
-    const { title, subTitle } = this.props;
-    return (
+const Header = ({ title, subtitle }) => {
+  return (
+    <div>
       <div>
-        <div>
-          <h1>{title}</h1>
-          <h2>{subTitle}</h2>
-        </div>
+        <h1>{title}</h1>
+        <h2>{subtitle}</h2>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-class Action extends React.Component {
-  render() {
-    const { pickRandom, hasOptions } = this.props;
-    return (
-      <div>
-        <button onClick={pickRandom} disabled={!hasOptions}>
-          What should i do?
-        </button>
-      </div>
-    );
-  }
-}
+Header.defaultProps = {
+  title: "Indecision App",
+  subtitle: "Put your life in the hands of computer",
+};
 
-class Options extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const Action = ({ pickRandom, hasOptions }) => {
+  return (
+    <div>
+      <button onClick={pickRandom} disabled={!hasOptions}>
+        What should i do?
+      </button>
+    </div>
+  );
+};
 
-  render() {
-    const { options, removeAll } = this.props;
+const Options = ({ options, removeAll, deleteOption }) => {
+  return (
+    <div>
+      <button onClick={removeAll}>Remove All</button>
+      {options.length === 0 && <p>Please Add an Option to Get Started!</p>}
+      {options.map((option, index) => (
+        <Option
+          index={index}
+          deleteOption={deleteOption}
+          key={option}
+          option={option}
+        />
+      ))}
+    </div>
+  );
+};
 
-    return (
-      <div>
-        <button onClick={removeAll}>Remove All</button>
-        Options: {options.length}
-        {options.map((option) => (
-          <Option key={option} option={option} />
-        ))}
-      </div>
-    );
-  }
-}
-class Option extends React.Component {
-  render() {
-    const { option } = this.props;
-    return <div>{option}</div>;
-  }
-}
+const Option = ({ option, index, deleteOption }) => {
+  return (
+    <div>
+      {option}
+      <button onClick={() => deleteOption(index)}>Delete</button>
+    </div>
+  );
+};
 
 class AddOption extends React.Component {
   constructor(props) {
@@ -116,9 +136,11 @@ class AddOption extends React.Component {
   onFormSubmit(e) {
     e.preventDefault();
     const option = e.target.elements.option.value.trim();
-    e.target.elements.option.value = "";
     const error = this.props.addOption(option);
     this.setState({ error: error });
+    if (!error) {
+      e.target.elements.option.value = "";
+    }
   }
 
   render() {
