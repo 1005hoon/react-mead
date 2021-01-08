@@ -69,12 +69,14 @@ class IndecisionApp extends React.Component {
             pickRandom={this.pickRandom}
             hasOptions={options.length > 0}
           />
-          <Options
-            removeAll={this.removeAllOptions}
-            deleteOption={this.deleteOption}
-            options={options}
-          />
-          <AddOption addOption={this.addOption} />
+          <div className="widget">
+            <Options
+              removeAll={this.removeAllOptions}
+              deleteOption={this.deleteOption}
+              options={options}
+            />
+            <AddOption addOption={this.addOption} />
+          </div>
           <OptionModal
             setSelectedOption={this.setSelectedOption}
             selectedOption={selectedOption}
