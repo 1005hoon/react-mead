@@ -4,9 +4,13 @@ import AddOption from "./AddOption";
 import Options from "./Options";
 import Action from "./Action";
 import Header from "./Header";
+import OptionModal from "./OptionModal";
 
 class IndecisionApp extends React.Component {
-  state = { options: [] };
+  state = {
+    options: [],
+    selectedOption: undefined,
+  };
 
   componentDidMount() {
     const data = localStorage.getItem("options");
@@ -27,10 +31,14 @@ class IndecisionApp extends React.Component {
     this.setState({ options: [] });
   };
 
+  setSelectedOption = () => {
+    this.setState({ selectedOption: undefined });
+  };
+
   pickRandom = () => {
     const randomIndex = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomIndex];
-    alert(option);
+    this.setState({ selectedOption: option });
   };
 
   deleteOption = (optionInd) => {
@@ -52,7 +60,7 @@ class IndecisionApp extends React.Component {
   };
 
   render() {
-    const { title, subtitle, options } = this.state;
+    const { title, subtitle, options, selectedOption } = this.state;
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
@@ -63,6 +71,10 @@ class IndecisionApp extends React.Component {
           options={options}
         />
         <AddOption addOption={this.addOption} />
+        <OptionModal
+          setSelectedOption={this.setSelectedOption}
+          selectedOption={selectedOption}
+        />
       </div>
     );
   }
