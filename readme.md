@@ -112,6 +112,7 @@ module.exports = {
       },
     ],
   },
+  devtool: "eval-source-map",
 };
 ```
 
@@ -122,3 +123,86 @@ module.exports = {
   "presets": ["env", "react"]
 }
 ```
+
+### Webpack Dev Server
+
+개발을 좀 더 빠르게 해보기 위해 설정하는 dev server
+`npm i webpack-dev-server@2.5.1` 설치 후 script를 다음과 같이 추가해주자.
+
+webpack.config.js
+
+```
+const path = require("path");
+
+module.exports = {
+  // 어떤 파일을 읽어오는지 설정
+  entry: "./src/app.js",
+  // output
+  output: {
+    path: path.join(__dirname, "public"),
+    filename: "bundle.js",
+  },
+  // babel 사용하도록 설정
+  module: {
+    rules: [
+      {
+        loader: "babel-loader",
+        // .js로 끝나는 파일들을 babel을 사용하도록 설정
+        test: /\.js/,
+        // node module의 경우 이미 다 설정이 완료되었으니 바벨 실행시 제외후 실행시키도록 명령
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  devtool: "eval-source-map",
+  devServer: {
+    contentBase: path.join(__dirname, "public"),
+  },
+};
+
+```
+
+package.json
+
+```
+{
+  "name": "react-mead",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "live-server public/",
+    "build": "webpack",
+    "dev-server": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1005hoon/react-mead.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1005hoon/react-mead/issues"
+  },
+  "homepage": "https://github.com/1005hoon/react-mead#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "live-server": "^1.2.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "validator": "^13.5.2",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^3.11.1"
+  }
+}
+
+```
+
+에라이 뭔가 겁나 많이 바뀌어서 설정 이렇게 해야 서버 돌아간다
+퉤퉤
