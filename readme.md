@@ -57,9 +57,14 @@ package.json
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "css-loader": "^5.0.1",
     "live-server": "^1.2.1",
+    "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-modal": "^3.12.1",
+    "sass-loader": "^10.1.0",
+    "style-loader": "^2.0.0",
     "validator": "^13.5.2",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.1",
@@ -94,10 +99,10 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        // .css로 끝나는 모든 파일 검색
-        test: /\.css$/,
+        // .scss로 끝나는 모든 파일 검색
+        test: /\.scss$/,
         // loader를 여러개 사용하는 경우 use를 쓴다
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
