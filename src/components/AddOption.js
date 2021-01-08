@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 
 class AddOption extends Component {
-  constructor(props) {
-    super(props);
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.state = {
-      error: null,
-    };
-  }
+  state = {
+    error: undefined,
+  };
 
-  onFormSubmit(e) {
+  onFormSubmit = (e) => {
     e.preventDefault();
     const option = e.target.elements.option.value.trim();
     const error = this.props.addOption(option);
@@ -17,7 +13,7 @@ class AddOption extends Component {
     if (!error) {
       e.target.elements.option.value = "";
     }
-  }
+  };
 
   render() {
     return (
