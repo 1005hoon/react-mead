@@ -1,4 +1,4 @@
-khtml {
+html {
   font-size: 62.5%; // 10px by default
 }
 
@@ -13,4 +13,8 @@ button {
 
 button:disabled {
   cursor: default;
+}
+
+.is-active {
+  font-weight: bold;
 }
