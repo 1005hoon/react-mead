@@ -4,7 +4,9 @@ import Option from "./Option";
 const Options = ({ options, removeAll, deleteOption }) => {
   return (
     <div>
-      <button onClick={removeAll}>Remove All</button>
+      <button className="button button--link" onClick={removeAll}>
+        Remove All
+      </button>
       {options.length === 0 && <p>Please Add an Option to Get Started!</p>}
       {options.map((option, index) => (
         <Option

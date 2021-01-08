@@ -4,7 +4,12 @@ const Option = ({ option, index, deleteOption }) => {
   return (
     <div>
       {option}
-      <button onClick={() => deleteOption(index)}>Delete</button>
+      <button
+        className="button button--link"
+        onClick={() => deleteOption(index)}
+      >
+        Delete
+      </button>
     </div>
   );
 };

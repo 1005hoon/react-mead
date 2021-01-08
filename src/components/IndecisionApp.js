@@ -64,17 +64,22 @@ class IndecisionApp extends React.Component {
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <Action pickRandom={this.pickRandom} hasOptions={options.length > 0} />
-        <Options
-          removeAll={this.removeAllOptions}
-          deleteOption={this.deleteOption}
-          options={options}
-        />
-        <AddOption addOption={this.addOption} />
-        <OptionModal
-          setSelectedOption={this.setSelectedOption}
-          selectedOption={selectedOption}
-        />
+        <div className="container">
+          <Action
+            pickRandom={this.pickRandom}
+            hasOptions={options.length > 0}
+          />
+          <Options
+            removeAll={this.removeAllOptions}
+            deleteOption={this.deleteOption}
+            options={options}
+          />
+          <AddOption addOption={this.addOption} />
+          <OptionModal
+            setSelectedOption={this.setSelectedOption}
+            selectedOption={selectedOption}
+          />
+        </div>
       </div>
     );
   }

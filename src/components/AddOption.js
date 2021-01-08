@@ -25,7 +25,7 @@ class AddOption extends Component {
             <br />
             <input type="text" name="option" />
           </label>
-          <button>Add Option</button>
+          <button className="button">Add Option</button>
         </form>
       </div>
     );
