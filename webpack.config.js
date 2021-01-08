@@ -19,10 +19,10 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        // .css로 끝나는 모든 파일 검색
-        test: /\.css$/,
+        // .scss로 끝나는 모든 파일 검색
+        test: /\.scss$/,
         // loader를 여러개 사용하는 경우 use를 쓴다
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
