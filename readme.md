@@ -93,6 +93,12 @@ module.exports = {
         // node module의 경우 이미 다 설정이 완료되었으니 바벨 실행시 제외후 실행시키도록 명령
         exclude: /node_modules/,
       },
+      {
+        // .css로 끝나는 모든 파일 검색
+        test: /\.css$/,
+        // loader를 여러개 사용하는 경우 use를 쓴다
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   devtool: "eval-source-map",
