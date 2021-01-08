@@ -19,8 +19,8 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        // .scss로 끝나는 모든 파일 검색
-        test: /\.scss$/,
+        // .scss 또는 .css 끝나는 모든 파일 검색
+        test: /\.s?css$/,
         // loader를 여러개 사용하는 경우 use를 쓴다
         use: ["style-loader", "css-loader", "sass-loader"],
       },
