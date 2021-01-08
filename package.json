@@ -1,5 +1,5 @@
 {
-  "name": "react-mead",
+  "name": "Expensify",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -33,6 +33,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-modal": "^3.12.1",
+    "react-router-dom": "^5.2.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "validator": "^13.5.2",
