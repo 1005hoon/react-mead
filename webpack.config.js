@@ -29,5 +29,7 @@ module.exports = {
   devtool: "eval-source-map",
   devServer: {
     contentBase: path.join(__dirname, "public"),
+    // handle routing via client side codes
+    historyApiFallback: true,
   },
 };
