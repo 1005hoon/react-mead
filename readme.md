@@ -99,8 +99,8 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        // .scss로 끝나는 모든 파일 검색
-        test: /\.scss$/,
+        // .scss 또는 .css 끝나는 모든 파일 검색
+        test: /\.s?css$/,
         // loader를 여러개 사용하는 경우 use를 쓴다
         use: ["style-loader", "css-loader", "sass-loader"],
       },
@@ -109,6 +109,8 @@ module.exports = {
   devtool: "eval-source-map",
   devServer: {
     contentBase: path.join(__dirname, "public"),
+    // handle routing via client side codes
+    historyApiFallback: true,
   },
 };
 ```
@@ -232,7 +234,7 @@ module.exports = {
 
 webpack.config.js
 
-```
+```js
 const path = require("path");
 
 module.exports = {
@@ -253,28 +255,35 @@ module.exports = {
         // node module의 경우 이미 다 설정이 완료되었으니 바벨 실행시 제외후 실행시키도록 명령
         exclude: /node_modules/,
       },
+      {
+        // .scss 또는 .css 끝나는 모든 파일 검색
+        test: /\.s?css$/,
+        // loader를 여러개 사용하는 경우 use를 쓴다
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
     ],
   },
   devtool: "eval-source-map",
   devServer: {
     contentBase: path.join(__dirname, "public"),
+    // handle routing via client side codes
+    historyApiFallback: true,
   },
 };
-
 ```
 
 package.json
 
-```
+```JSON
 {
-  "name": "react-mead",
+  "name": "Expensify",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "serve": "live-server public/",
     "build": "webpack",
-    "dev-server": "webpack serve"
+    "dev": "webpack serve"
   },
   "repository": {
     "type": "git",
@@ -291,17 +300,26 @@ package.json
     "babel-cli": "^6.26.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "css-loader": "^5.0.1",
     "live-server": "^1.2.1",
+    "node-sass": "^5.0.0",
+    "normalize.css": "^8.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-modal": "^3.12.1",
+    "react-router-dom": "^5.2.0",
+    "sass-loader": "^10.1.0",
+    "style-loader": "^2.0.0",
     "validator": "^13.5.2",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.1",
     "webpack-dev-server": "^3.11.1"
   }
 }
+
 
 ```
 
