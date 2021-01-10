@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   // 어떤 파일을 읽어오는지 설정
-  entry: "./src/playground/redux101.js",
+  entry: "./src/playground/redux-expensify.js",
   // output
   output: {
     path: path.join(__dirname, "public"),
@@ -26,10 +26,11 @@ module.exports = {
       },
     ],
   },
-  devtool: "eval-source-map",
   devServer: {
     contentBase: path.join(__dirname, "public"),
     // handle routing via client side codes
     historyApiFallback: true,
   },
 };
+
+110366305839;
