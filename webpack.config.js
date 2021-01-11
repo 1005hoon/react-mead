@@ -2,7 +2,8 @@ const path = require("path");
 
 module.exports = {
   // 어떤 파일을 읽어오는지 설정
-  entry: "./src/playground/redux-expensify.js",
+  entry: "./src/app.js",
+  // entry: "./src/playground/hoc.js",
   // output
   output: {
     path: path.join(__dirname, "public"),
