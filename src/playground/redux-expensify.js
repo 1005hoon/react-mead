@@ -115,12 +115,12 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
     case "SET_DATE_FILTER":
       return {
         ...state,
-        sortBy: "amount",
+        sortBy: "date",
       };
     case "SET_AMOUNT_FILTER":
       return {
         ...state,
-        sortBy: "date",
+        sortBy: "amount",
       };
     case "SET_START_DATE":
       return {
@@ -138,6 +138,29 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
   }
 };
 
+// Get Visible Expenses
+const getVisibleExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
+  return expenses
+    .filter((expense) => {
+      const startDateMatch =
+        typeof startDate !== "number" || expense.createdAt >= startDate;
+      const endDateMatch =
+        typeof endDate !== "number" || expense.createdAt <= endDate;
+
+      const textMatch = expense.description
+        .toLowerCase()
+        .includes(text.toLowerCase());
+      return startDateMatch && endDateMatch && textMatch;
+    })
+    .sort((a, b) => {
+      if (sortBy === "date") {
+        return a.createdAt < b.createdAt ? 1 : -1;
+      } else if (sortBy === "amount") {
+        return a.amount < b.amount ? 1 : -1;
+      }
+    });
+};
+
 // Store creation
 const store = createStore(
   combineReducers({
@@ -147,24 +170,16 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-  console.log(store.getState());
+  const state = store.getState();
+  const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+  console.log(visibleExpenses, state.filters);
 });
 
-const firstExpense = store.dispatch(
-  addExpense({ description: "Rent", amount: 740 })
+store.dispatch(
+  addExpense({ description: "Grocery", amount: 340, createdAt: 1000 })
 );
-store.dispatch(setStartDate(1025));
-store.dispatch(addExpense({ description: "Grocery", amount: 340 }));
-store.dispatch(addExpense({ description: "Online Lecture", amount: 55 }));
-store.dispatch(addExpense({ description: "Computer App", amount: 245 }));
-store.dispatch(addExpense({ description: "Online Lecture", amount: 35 }));
-store.dispatch(addExpense({ description: "Computer App", amount: 30 }));
+store.dispatch(
+  addExpense({ description: "Online Lecture", amount: 550, createdAt: -1000 })
+);
 
-store.dispatch(setTextFilter("rent"));
 store.dispatch(sortByAmount());
-store.dispatch(setEndDate(1225));
-store.dispatch(setEndDate());
-store.dispatch(sortByDate());
-
-store.dispatch(removeExpense({ id: firstExpense.expense.id }));
-store.dispatch(editExpense(secondExpense.expense.id, { amount: 500 }));
